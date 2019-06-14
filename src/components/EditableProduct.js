@@ -21,7 +21,7 @@ class EditableProduct extends React.Component {
         {this.state.editing ?  (<EditProductForm
           id={this.props.id}
           onEditFormToggleClick={this.handleEditFormToggle}
-          product={{title: this.props.title, price: this.props.price, quantity: this.props.quantity}}
+          product={this.props.product}
           />) : ''}
       </div>
     )

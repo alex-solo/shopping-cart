@@ -1,36 +1,31 @@
 import React from 'react';
 import CartItemList from './CartItemList';
-import store from '../lib/store';
+import { connect } from 'react-redux';
 
-class ShoppingCart extends React.Component {
-  componentDidMount() {
-    this.unsubscribe = store.subscribe(() => this.forceUpdate());
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  render() {
-    const items = store.getState().cart;
-    return (
+const ShoppingCart = (props) => {
+  return (
       <div className="cart">
         <h2>Your Cart</h2>
-      {
-        items.length > 0 ? 
-          <CartItemList 
-            cart={items}
-          />
-          :
-          <div>
-            <p>Your cart is empty</p>
-            <p>Total: $0</p>
-            <a className="button checkout disabled">Checkout</a>
-          </div>  
-      }
-  </div>
-    );
-  }
+        {
+          props.items.length > 0 ? 
+            <CartItemList 
+              cart={props.items}
+            />
+            :
+            <div>
+              <p>Your cart is empty</p>
+              <p>Total: $0</p>
+              <a className="button checkout disabled">Checkout</a>
+            </div>  
+        }
+      </div>
+  )
 }
 
-export default ShoppingCart;
+const mapStateToProps = (state) => {
+  return {
+    items: state.cart
+  };
+};
+
+export default connect(mapStateToProps)(ShoppingCart);

@@ -11,7 +11,7 @@ class ProductsList extends React.Component {
       return (
         <EditableProduct
           key={product.id}
-          {...product}
+          product={product}
         />
       );
     });

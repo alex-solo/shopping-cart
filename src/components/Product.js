@@ -1,24 +1,18 @@
 import React from 'react';
 import client from '../lib/client'
-import store from '../lib/store'
+import { connect } from 'react-redux';
 
 const Product = (props) => {
-
   const handleAddToCart = (e) => {
     e.preventDefault();
-    let product = store.getState().products.find((prod) => {
-      return prod.id === props.id;
-    });
-    store.dispatch({product, type: "ADD_PRODUCT_TO_CART"});
+    let product = props.product
+    props.onAddToCart(product)
   };
 
   const handleDeleteFromList = (e) => {
     e.preventDefault()
-    let id = props.id
-    client.delete(`/api/products/${id}`)
-    .then(() => {
-      store.dispatch({id, type: 'DELETE_PRODUCT'});
-    });
+    let id = props.product.id
+    props.onDeleteFromList(id);
   }
 
   const handleEditClick = (e) => {
@@ -26,11 +20,12 @@ const Product = (props) => {
     props.onEditClick()
   }
 
+  let {title, price, quantity} = props.product
   return (
     <div className="product-details">
-      <h3>{props.title}</h3>
-      <p className="price">${props.price}</p>
-      <p className="quantity">{props.quantity} Left in stock</p>
+      <h3>{title}</h3>
+      <p className="price">${price}</p>
+      <p className="quantity">{quantity} Left in stock</p>
       <div className="actions product-actions">
         <a className="button add-to-cart"
            onClick={handleAddToCart}>
@@ -49,4 +44,19 @@ const Product = (props) => {
   );
 };
 
-export default Product;
+const mapDispatchToProps = (dispatch) => {
+ return {
+  onAddToCart: (product) => {
+    dispatch({product, type: "ADD_PRODUCT_TO_CART"});
+  },
+  onDeleteFromList: (id) => {
+    client.delete(`/api/products/${id}`)
+          .then(() => {
+    dispatch({id, type: 'DELETE_PRODUCT'});
+    });
+  }
+
+ };
+};
+
+export default connect(null, mapDispatchToProps)(Product);
