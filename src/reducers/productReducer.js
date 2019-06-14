@@ -9,12 +9,21 @@ const productReducer = ((state=[], action) => {
         if (product.id === action.product.id) {
           return {...action.product}
         } else {
-          return product
+          return product;
         }
       })
     case 'DELETE_PRODUCT':
       return state.filter((product) => {
         return product.id !== action.id
+      })
+    case 'ADD_PRODUCT_TO_CART':
+      return state.map((product) => {
+        if (product.id === action.product.id) {
+          const quantity = (product.quantity === 0 ? 0 : product.quantity - 1)
+          return Object.assign({}, product, {quantity});
+        } else {
+          return product;
+        }
       })
     default:
       return state;

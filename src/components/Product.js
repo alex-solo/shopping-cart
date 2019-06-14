@@ -6,7 +6,10 @@ const Product = (props) => {
 
   const handleAddToCart = (e) => {
     e.preventDefault();
-    props.onAddItemToCart(props.id);
+    let product = store.getState().products.find((prod) => {
+      return prod.id === props.id;
+    });
+    store.dispatch({product, type: "ADD_PRODUCT_TO_CART"});
   };
 
   const handleDeleteFromList = (e) => {
@@ -14,7 +17,7 @@ const Product = (props) => {
     let id = props.id
     client.delete(`/api/products/${id}`)
     .then(() => {
-      store.dispatch({id, type: 'DELETE_PRODUCT'})
+      store.dispatch({id, type: 'DELETE_PRODUCT'});
     });
   }
 

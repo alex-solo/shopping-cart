@@ -4,7 +4,6 @@ import store from '../lib/store'
 import client from '../lib/client';
 
 class ProductsList extends React.Component {
-
   componentDidMount(){
       this.unsubscribe = store.subscribe(() => this.forceUpdate())
       client.get('/api/products')
@@ -13,13 +12,15 @@ class ProductsList extends React.Component {
     })
   }
 
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
   render()  {
-    let editableProducts = store.getState().products.map( (product) => {
+    let editableProducts = store.getState().products.map((product) => {
       return (
         <EditableProduct
           key={product.id}
-          onAddItemToCart={this.props.onAddItemToCart}
-          onDeleteFromCart={this.props.onDeleteFromCart}
           {...product}
         />
       );

@@ -5,13 +5,8 @@ import ToggleableAddProduct from './ToggleableAddProduct'
 const ProductsWrapper = (props) => {
   return (
     <main>
-      <ProductsList
-        onAddItemToCart={props.onAddItemToCart}
-        onDeleteFromCart={props.onDeleteFromCart}
-      />
-      <ToggleableAddProduct 
-        onAddProduct={props.onAddProduct}
-      />
+      <ProductsList />
+      <ToggleableAddProduct />
     </main>
   )
 };

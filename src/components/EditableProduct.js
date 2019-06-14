@@ -3,7 +3,6 @@ import Product from './Product';
 import EditProductForm from './EditProductForm'
 
 class EditableProduct extends React.Component {
-
   state = {
     editing: false,
   }
